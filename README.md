@@ -28,9 +28,10 @@ Then define an encoding function.  The arguments to the constructor are
 
 - a description of the variables to be included in the encoding.    The interactions currently don't work, but all the rest does.
 
-- the schema of the tuples that pig will pass together with their data types. There is a lot of flexibility here in terms of tokenizing text, reusing fields with different encodings and interaction variables. 
+- the schema of the tuples that pig will pass together with their data types.
+There is a lot of flexibility here in terms of tokenizing text, reusing fields with different encodings and interaction variables.
 
-    define EncodeVector org.apache.mahout.pig.EncodeVector('10','x+y+1', 'x:numeric, y:numeric');
+   define EncodeVector org.apache.mahout.pig.EncodeVector('10','x+y+1', 'x:numeric, y:numeric');
 
 The other important type is text.  If you just say "text" is the type, then whitespace is used for tokenization.  You can also add a Lucene 3.1 tokenizer in parentheses if you want something fancier.  There is also a word data type.
 

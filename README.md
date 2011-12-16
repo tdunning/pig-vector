@@ -32,7 +32,7 @@ Then define an encoding function.  The arguments to the constructor are
 
     define EncodeVector org.apache.mahout.pig.EncodeVector('10','x+y+1', 'x:numeric, y:numeric');
 
-The other important type is text.  If you just say "text" is the type, then whitespace is used for tokenization.  You can also add a Lucene 3.1 tokenizer in parentheses if you want something fancier.  There is also a word data type.  
+The other important type is text.  If you just say "text" is the type, then whitespace is used for tokenization.  You can also add a Lucene 3.1 tokenizer in parentheses if you want something fancier.  There is also a word data type.
 
 Then we just need data to encode.  Here I read an output file that has some silly data in it.
 

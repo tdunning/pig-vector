@@ -32,7 +32,11 @@ Then define an encoding function.  The arguments to the constructor are
 
 There is a lot of flexibility here in terms of tokenizing text, reusing fields with different encodings and interaction variables.
 
-   define EncodeVector org.apache.mahout.pig.EncodeVector('10','x+y+1', 'x:numeric, y:numeric');
+    define EncodeVector org.apache.mahout.pig.EncodeVector('10','x+y+1', 'x:numeric, y:numeric');
+
+To do this, start off by registering the pig-vector jar:
+
+    register 'target/pig-vector-1.0-jar-with-dependencies.jar';
 
 The other important type is text.  If you just say "text" is the type, then whitespace is used for tokenization.  You can also add a Lucene 3.1 tokenizer in parentheses if you want something fancier.  There is also a word data type.
 

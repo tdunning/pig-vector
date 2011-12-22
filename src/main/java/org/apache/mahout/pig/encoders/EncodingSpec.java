@@ -1,4 +1,4 @@
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;

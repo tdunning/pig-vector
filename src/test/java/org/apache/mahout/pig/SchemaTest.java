@@ -1,16 +1,19 @@
 package org.apache.mahout.pig;
 
 import org.antlr.runtime.RecognitionException;
-import org.apache.mahout.vectorizer.encoders.*;
-import org.junit.Assert;
+import org.apache.mahout.pig.encoders.ArgumentEncoder;
+import org.apache.mahout.pig.encoders.Schema;
+import org.apache.mahout.pig.encoders.SchemaParseException;
+import org.apache.mahout.vectorizer.encoders.ContinuousValueEncoder;
+import org.apache.mahout.vectorizer.encoders.LuceneTextValueEncoder;
+import org.apache.mahout.vectorizer.encoders.StaticWordValueEncoder;
+import org.apache.mahout.vectorizer.encoders.TextValueEncoder;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class SchemaTest {
     @Test
@@ -41,7 +44,7 @@ public class SchemaTest {
     @Test
     public void testMultipleDefinition() throws RecognitionException, IOException {
         try {
-            Map<String, ArgumentEncoder> r = Schema.parse("a:numeric, b:word, a:text, d:text");
+            Schema.parse("a:numeric, b:word, a:text, d:text");
             fail("Should have thrown syntax error");
         } catch (SchemaParseException e) {
             assertTrue(e.getMessage().contains("multiply defined"));
@@ -51,7 +54,7 @@ public class SchemaTest {
     @Test
     public void testSyntaxError() throws RecognitionException, IOException {
         try {
-            Map<String, ArgumentEncoder> r = Schema.parse("a, b:word, a:text, d:text");
+            Schema.parse("a, b:word, a:text, d:text");
             fail("Should have thrown syntax error");
         } catch (SchemaParseException e) {
             assertTrue(e.getMessage().contains("Syntax error"));

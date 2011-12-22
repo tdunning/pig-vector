@@ -1,4 +1,4 @@
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -7,18 +7,10 @@ import org.antlr.runtime.RecognitionException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Map;
 
-/**
- * Created by IntelliJ IDEA.
- * User: tdunning
- * Date: 12/12/11
- * Time: 10:01 AM
- * To change this template use File | Settings | File Templates.
- */
 public class Formula {
-        public static EncodingSpec parse(Reader reader) {
-        FormulaParser tokenParser = null;
+    public static EncodingSpec parse(Reader reader) {
+        FormulaParser tokenParser;
         try {
             CommonTokenStream input = new CommonTokenStream(new FormulaLexer(new ANTLRReaderStream(reader)));
             tokenParser = new FormulaParser(input);

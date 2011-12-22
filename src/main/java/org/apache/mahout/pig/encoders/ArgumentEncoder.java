@@ -1,7 +1,6 @@
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.util.Version;
 import org.apache.mahout.vectorizer.encoders.*;
 
@@ -38,8 +37,7 @@ public class ArgumentEncoder {
     public static ArgumentEncoder newTextEncoder(int position, String name, String analyzerClass) throws SchemaParseException {
         ArgumentEncoder r = new ArgumentEncoder(position, name);
         LuceneTextValueEncoder enc = new LuceneTextValueEncoder(name);
-        Analyzer a = new EnglishAnalyzer(Version.LUCENE_31);
-        Analyzer analyzer = null;
+        Analyzer analyzer;
         try {
             analyzer = (Analyzer) Class.forName(analyzerClass).getConstructor(Version.class).newInstance(Version.LUCENE_31);
         } catch (InstantiationException e) {
@@ -51,7 +49,7 @@ public class ArgumentEncoder {
         } catch (NoSuchMethodException e) {
             throw new SchemaParseException("Can't find constructor for analyzer class " + analyzerClass, e);
         } catch (InvocationTargetException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new SchemaParseException("Can't construct analyzer object " + analyzerClass, e);
         }
         enc.setAnalyzer(analyzer);
         r.encoder = enc;

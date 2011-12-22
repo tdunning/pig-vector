@@ -3,6 +3,10 @@ package org.apache.mahout.pig;
 import org.antlr.runtime.ANTLRReaderStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.apache.mahout.pig.encoders.EncodingSpec;
+import org.apache.mahout.pig.encoders.FormulaLexer;
+import org.apache.mahout.pig.encoders.FormulaParseException;
+import org.apache.mahout.pig.encoders.FormulaParser;
 import org.junit.Assert;
 import org.junit.Test;
 

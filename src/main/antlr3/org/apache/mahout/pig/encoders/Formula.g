@@ -5,11 +5,11 @@ options {
 }
 
 @header {
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 }
 
 @lexer::header {
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 }
 
 @members {

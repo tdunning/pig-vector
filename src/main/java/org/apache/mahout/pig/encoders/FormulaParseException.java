@@ -1,4 +1,4 @@
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 
 public class FormulaParseException extends RuntimeException {
     public FormulaParseException(Throwable e, String msg) {

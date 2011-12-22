@@ -5,7 +5,7 @@ options {
 }
 
 @header {
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 
 import com.google.common.collect.Maps;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 }
 
 @lexer::header {
-package org.apache.mahout.pig;
+package org.apache.mahout.pig.encoders;
 }
 
 @members {       

@@ -18,13 +18,10 @@ import java.io.IOException;
 public class Classifier extends EvalFunc<Tuple> {
     private final OnlineLogisticRegression model;
 
-    public Classifier(String modelClassName, String file) {
+    public Classifier(String file) {
         try {
-            Class<OnlineLogisticRegression> modelClass = (Class<OnlineLogisticRegression>) Class.forName(modelClassName);
-            final Configuration conf = UDFContext.getUDFContext().getJobConf();
-            model = PolymorphicWritable.read(FileSystem.get(conf).open(new Path(file)), modelClass);
-        } catch (ClassNotFoundException e) {
-            throw new BadClassifierSpecException("Can't find model class: " + modelClassName, e);
+            Configuration conf = UDFContext.getUDFContext().getJobConf();
+            model = PolymorphicWritable.read(FileSystem.get(conf).open(new Path(file)), OnlineLogisticRegression.class);
         } catch (FileNotFoundException e) {
             throw new BadClassifierSpecException("Can't find file to read model from: " + file, e);
         } catch (IOException e) {

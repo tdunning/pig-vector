@@ -7,4 +7,8 @@ public class BadClassifierSpecException extends RuntimeException {
     public BadClassifierSpecException(String msg, Throwable e) {
         super(msg, e);
     }
+
+    public BadClassifierSpecException(String msg) {
+        super(msg);
+    }
 }

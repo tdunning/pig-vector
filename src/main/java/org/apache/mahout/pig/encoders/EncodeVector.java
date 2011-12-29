@@ -2,6 +2,7 @@ package org.apache.mahout.pig.encoders;
 
 import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.Vector;
+import org.apache.mahout.pig.ImpossibleStateError;
 import org.apache.mahout.pig.PigVector;
 import org.apache.mahout.vectorizer.encoders.ConstantValueEncoder;
 import org.apache.mahout.vectorizer.encoders.FeatureVectorEncoder;

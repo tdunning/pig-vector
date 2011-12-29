@@ -165,6 +165,9 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
      *                training examples will be passed at once.
      */
     public void accumulate(Tuple example) throws IOException {
+        if (example.size() != 1) {
+            throw new IllegalArgumentException("Input to learning algorithm should be a single bag containing tuples each with target and vector");
+        }
         DataBag data = (DataBag) example.get(0);
         if (inMemory) {
             for (Tuple input : data) {
@@ -192,6 +195,7 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
      */
     public Tuple getValue() {
         for (int i = 0; i < iterations; i++) {
+            System.err.println("Pass: " + i);
             for (Example example : readInput()) {
                 model.train(example.getTarget(), example.getFeatures());
             }
@@ -215,7 +219,9 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
      * Called after getValue() to prepare processing for next key.
      */
     public void cleanup() {
-        tmpFile.delete();
+        if (tmpFile != null) {
+            tmpFile.delete();
+        }
     }
 
     public int getIterations() {

@@ -1,4 +1,5 @@
-This code provides the ability to encode data in Pig using the hashed encoding capabilities of Mahout.
+This code provides the ability to encode data in Pig using the hashed encoding capabilities of Mahout.  It also allows
+training of logistic regression models.
 
 To try this out, start by compiling and installing mahout in your local repository:
 
@@ -68,6 +69,9 @@ With only 10 dimensional output vectors, some of these may overlap and cause a l
 Or you can write it out in binary format
 
     store b into 'foo.bin' using BinStorage;
+
+Instead of or in addition to writing the data to an output file, you can also train a model on this data.  Models
+can be trained on any grouped bag.
 
 Send questions and suggestions to ted.dunning@gmail.com
 

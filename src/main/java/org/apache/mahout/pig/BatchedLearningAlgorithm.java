@@ -11,7 +11,6 @@ import org.apache.mahout.classifier.sgd.L1;
 import org.apache.mahout.classifier.sgd.OnlineLogisticRegression;
 import org.apache.mahout.classifier.sgd.PolymorphicWritable;
 import org.apache.mahout.math.Vector;
-import org.apache.mahout.pig.annotations.Stable;
 import org.apache.pig.Accumulator;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.backend.executionengine.ExecException;
@@ -29,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-@Stable
 public class BatchedLearningAlgorithm extends EvalFunc<Tuple> implements Accumulator<Tuple> {
     private List<String> categories;
     OnlineLogisticRegression model;

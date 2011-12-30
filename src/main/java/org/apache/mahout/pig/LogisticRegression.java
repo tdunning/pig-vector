@@ -16,7 +16,6 @@ import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 import org.apache.pig.Accumulator;
 import org.apache.pig.EvalFunc;
-import org.apache.pig.backend.executionengine.ExecException;
 import org.apache.pig.data.DataBag;
 import org.apache.pig.data.DataByteArray;
 import org.apache.pig.data.DefaultTuple;
@@ -152,7 +151,8 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
 
     @Override
     public Tuple exec(Tuple input) throws IOException {
-        throw new ExecException("Learning algorithm should only be called as an accumulator");
+        addBagOfData((DataBag) input.get(0));
+        return getValue();
     }
 
     /**
@@ -168,17 +168,20 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
         if (example.size() != 1) {
             throw new IllegalArgumentException("Input to learning algorithm should be a single bag containing tuples each with target and vector");
         }
-        DataBag data = (DataBag) example.get(0);
+        addBagOfData((DataBag) example.get(0));
+    }
+
+    private void addBagOfData(DataBag data) throws IOException {
         if (inMemory) {
             for (Tuple input : data) {
-                trainingData.add(new Example(categories.indexOf(input.get(0)), ((PigVector) input.get(1)).getV()));
+                trainingData.add(new Example(categories.indexOf(input.get(0)), PigVector.fromBytes((DataByteArray) input.get(1))));
             }
         } else {
             DataOutputStream out = new DataOutputStream(new FileOutputStream(tmpFile));
             try {
                 for (Tuple input : data) {
                     out.writeInt(categories.indexOf(input.get(0)));
-                    PolymorphicWritable.write(out, new VectorWritable(((PigVector) input.get(1)).getV()));
+                    PolymorphicWritable.write(out, new VectorWritable(PigVector.fromBytes((DataByteArray) input.get(1))));
                 }
             } finally {
                 out.close();

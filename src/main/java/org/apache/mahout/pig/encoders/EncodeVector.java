@@ -7,6 +7,7 @@ import org.apache.mahout.pig.PigVector;
 import org.apache.mahout.vectorizer.encoders.ConstantValueEncoder;
 import org.apache.mahout.vectorizer.encoders.FeatureVectorEncoder;
 import org.apache.pig.EvalFunc;
+import org.apache.pig.data.DataByteArray;
 import org.apache.pig.data.Tuple;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.Set;
 /**
  * Encodes a tuple as a vector using the hashed vector representation.
  */
-public class EncodeVector extends EvalFunc<Tuple> {
+public class EncodeVector extends EvalFunc<DataByteArray> {
     private int dimension;
     private EncodingSpec spec;
     private Map<String, ArgumentEncoder> encoderMap;
@@ -54,7 +55,7 @@ public class EncodeVector extends EvalFunc<Tuple> {
         spec = Formula.parse(formula);
     }
 
-    public Tuple exec(Tuple input) throws IOException {
+    public DataByteArray exec(Tuple input) throws IOException {
         if (input == null || input.size() == 0 || input.size() < minimumTupleSize) {
             throw new IllegalArgumentException("Tuple doesn't have at least " + minimumTupleSize + " elements");
         } else {
@@ -74,7 +75,7 @@ public class EncodeVector extends EvalFunc<Tuple> {
                     encoder.getEncoder().addToVector(input.get(encoder.getPosition()).toString(), r);
                 }
             }
-            return new PigVector(r);
+            return PigVector.toBytes(r);
         }
     }
 }

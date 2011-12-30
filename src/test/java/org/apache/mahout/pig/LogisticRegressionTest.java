@@ -78,7 +78,7 @@ public class LogisticRegressionTest {
 
             Tuple x = new DefaultTuple();
             x.append(target[v.dot(n) > 0 ? 1 : 0]);
-            x.append(new PigVector(v));
+            x.append(PigVector.toBytes(v));
             examples.add(x);
         }
         Tuple data = new DefaultTuple();
@@ -101,7 +101,7 @@ public class LogisticRegressionTest {
         // just for grins, we should check whether the model actually computes the correct values
         List<String> categories = ImmutableList.of("0", "1");
         for (Tuple example : examples) {
-            double score = model.classifyScalar(((PigVector) example.get(1)).getV());
+            double score = model.classifyScalar(PigVector.fromBytes((DataByteArray) example.get(1)));
             int actual = categories.indexOf(example.get(0));
             score = score * actual + (1 - score) * (1 - actual);
             assertTrue(score > 0.4);

@@ -87,9 +87,13 @@ public class LogisticRegressionTest {
         // train model.  training from tmp file allows absolute repeatability
         LogisticRegression lr = new LogisticRegression("categories = 0 1, features=4, inMemory=false, iterations=5");
         lr.accumulate(data);
-        Tuple r = lr.getValue();
-        DataInputStream in = new DataInputStream(new ByteArrayInputStream(((DataByteArray) r.get(0)).get()));
-        OnlineLogisticRegression model = PolymorphicWritable.read(in, OnlineLogisticRegression.class);
+        DataByteArray r = lr.getValue();
+        DataInputStream in = new DataInputStream(new ByteArrayInputStream(r.get()));
+        Classifier c = PolymorphicWritable.read(in, Classifier.class);
+        assertEquals(2, c.getCategories().size());
+        assertEquals("0", c.getCategories().get(0));
+        assertEquals("1", c.getCategories().get(1));
+        OnlineLogisticRegression model = c.getModel();
         assertEquals(lr.getModel().currentLearningRate(), model.currentLearningRate(), 1e-10);
         in.close();
 

@@ -18,7 +18,6 @@ import org.apache.pig.Accumulator;
 import org.apache.pig.EvalFunc;
 import org.apache.pig.data.DataBag;
 import org.apache.pig.data.DataByteArray;
-import org.apache.pig.data.DefaultTuple;
 import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.util.UDFContext;
 
@@ -68,7 +67,7 @@ import java.util.Random;
  * <li>iterations - the number of iterations through the training data that are to be taken.</li>
  * </ul>
  */
-public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<Tuple> {
+public class LogisticRegression extends EvalFunc<DataByteArray> implements Accumulator<DataByteArray> {
     private List<String> categories;
     OnlineLogisticRegression model;
     List<Example> trainingData = Lists.newArrayList();
@@ -150,7 +149,7 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
     }
 
     @Override
-    public Tuple exec(Tuple input) throws IOException {
+    public DataByteArray exec(Tuple input) throws IOException {
         addBagOfData((DataBag) input.get(0));
         return getValue();
     }
@@ -166,7 +165,7 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
      */
     public void accumulate(Tuple example) throws IOException {
         if (example.size() != 1) {
-            throw new IllegalArgumentException("Input to learning algorithm should be a single bag containing tuples each with target and vector");
+            throw new IllegalArgumentException("Input to training algorithm should be a single bag containing tuples each with target and vector");
         }
         addBagOfData((DataBag) example.get(0));
     }
@@ -196,22 +195,20 @@ public class LogisticRegression extends EvalFunc<Tuple> implements Accumulator<T
      *
      * @return the trained model.
      */
-    public Tuple getValue() {
+    public DataByteArray getValue() {
         for (int i = 0; i < iterations; i++) {
-            System.err.println("Pass: " + i);
             for (Example example : readInput()) {
                 model.train(example.getTarget(), example.getFeatures());
             }
         }
 
         try {
-            Tuple r = new DefaultTuple();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             DataOutputStream out = new DataOutputStream(baos);
-            PolymorphicWritable.write(out, model);
+            PolymorphicWritable.write(out, new Classifier(categories, model));
             out.close();
-            r.append(new DataByteArray(baos.toByteArray()));
-            return r;
+
+            return new DataByteArray(baos.toByteArray());
         } catch (IOException e) {
             // should never happen
             throw new ImpossibleStateError("Can't put results into tuple", e);

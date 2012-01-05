@@ -17,7 +17,6 @@ import org.apache.pig.data.Tuple;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * Stores models in files named by a well known prefix and the reduce key.
@@ -45,13 +44,11 @@ public class PigModelStorage extends StoreFunc {
      */
     @Override
     public void checkSchema(ResourceSchema s) throws IOException {
-        System.out.printf("Into checkSchema with keys: %s\n%s\n", Arrays.deepToString(s.fieldNames()), s);
         if (s.getFields()[1].getType() != DataType.BYTEARRAY || s.getFields()[0].getType() == DataType.BYTEARRAY) {
             throw new InvalidOutputSchema(String.format("Want a key with a string format and binary model for model output but got %s and %s",
                     DataType.findTypeName(s.getFields()[0].getType()), DataType.findTypeName(s.getFields()[1].getType())));
         }
     }
-
 
     /**
      * Return the OutputFormat associated with StoreFunc.  This will be called
@@ -71,11 +68,6 @@ public class PigModelStorage extends StoreFunc {
      * Communicate to the storer the location where the data needs to be stored.
      * The location string passed to the {@link org.apache.pig.StoreFunc} here is the
      * return value of {@link org.apache.pig.StoreFunc#relToAbsPathForStoreLocation(String, org.apache.hadoop.fs.Path)}
-     * This method will be called in the frontend and backend multiple times. Implementations
-     * should bear in mind that this method is called multiple times and should
-     * ensure there are no inconsistent side effects due to the multiple calls.
-     * {@link #checkSchema(org.apache.pig.ResourceSchema)} will be called before any call to
-     * {@link #setStoreLocation(String, org.apache.hadoop.mapreduce.Job)}.
      *
      * @param location Location returned by
      *                 {@link org.apache.pig.StoreFunc#relToAbsPathForStoreLocation(String, org.apache.hadoop.fs.Path)}
@@ -110,7 +102,6 @@ public class PigModelStorage extends StoreFunc {
     @Override
     public void putNext(Tuple t) throws IOException {
         try {
-            System.out.printf("value key = %s\n", t.get(0));
             Classifier r;
             try {
                 DataInputStream in = new DataInputStream(new ByteArrayInputStream(((DataByteArray) t.get(1)).get()));
@@ -120,6 +111,7 @@ public class PigModelStorage extends StoreFunc {
                 throw new ImpossibleStateError("Can't have error in BAIS", e);
             }
 
+            //noinspection unchecked
             output.write(new Text(DataType.toString(t.get(0))), r);
         } catch (InterruptedException e) {
             throw new ImpossibleStateError("Interrupted operation ... don't know what to do", e);

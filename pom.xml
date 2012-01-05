@@ -13,15 +13,16 @@
             <groupId>org.apache.pig</groupId>
             <artifactId>pig</artifactId>
             <version>0.9.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.twitter</groupId>
+            <artifactId>elephant-bird</artifactId>
+            <version>2.1.2</version>
         </dependency>
         <dependency>
             <groupId>org.apache.mahout</groupId>
             <artifactId>mahout-core</artifactId>
-            <version>0.6-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.mahout</groupId>
-            <artifactId>mahout-math</artifactId>
             <version>0.6-SNAPSHOT</version>
         </dependency>
         <dependency>

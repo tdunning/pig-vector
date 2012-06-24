@@ -16,14 +16,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.twitter</groupId>
-            <artifactId>elephant-bird</artifactId>
-            <version>2.1.2</version>
+            <groupId>com.twitter.elephantbird</groupId>
+            <artifactId>elephant-bird-core</artifactId>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.mahout</groupId>
             <artifactId>mahout-core</artifactId>
-            <version>0.6-SNAPSHOT</version>
+            <version>0.8-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
@@ -68,6 +68,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

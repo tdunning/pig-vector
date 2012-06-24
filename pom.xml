@@ -16,9 +16,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.twitter</groupId>
-            <artifactId>elephant-bird</artifactId>
-            <version>2.1.2</version>
+            <groupId>com.twitter.elephantbird</groupId>
+            <artifactId>elephant-bird-core</artifactId>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.mahout</groupId>

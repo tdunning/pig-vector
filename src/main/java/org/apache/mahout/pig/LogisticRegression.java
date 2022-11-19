@@ -38,6 +38,7 @@ import org.apache.pig.data.Tuple;
 import org.apache.pig.impl.util.UDFContext;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -159,7 +160,7 @@ public class LogisticRegression extends EvalFunc<DataByteArray> implements Accum
         }
 
         if (!inMemory) {
-            tmpFile = File.createTempFile("trainingData", "tmp");
+            tmpFile = Files.createTempFile("trainingData", "tmp").toFile();
             tmpFile.deleteOnExit();
         }
     }

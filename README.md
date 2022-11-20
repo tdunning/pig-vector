@@ -1,3 +1,5 @@
+**This package should be considered deprecated at this point and unmaintained.**
+
 This code provides the ability to encode data in Pig using the hashed encoding capabilities of Mahout.  It also allows
 training of logistic regression models.
 
